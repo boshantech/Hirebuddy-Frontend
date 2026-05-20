@@ -1,0 +1,38 @@
+name: Node.js CI/CD Framework
+
+on:
+  push:
+    branches: [ "main" ] # Jab main branch me push/merge hoga
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Deploying to AWS EC2 via SSH
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.REMOTE_HOST }}
+        username: ${{ secrets.REMOTE_USER }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        script: |
+          # 1. Project folder me jayein
+          cd ${{ secrets.PROJECT_PATH }}
+          
+          # 2. Git se naya code pull karein
+          git pull origin main
+          
+          # 3. STEP 1: Dependencies Install Karein
+          echo "Installing dependencies..."
+          npm install
+          
+          # 4. STEP 2: Production Build Banayein (Virtual RAM limits ke sath)
+          echo "Creating optimized production build..."
+          NODE_OPTIONS="--max-old-space-size=1536" npm run build
+          
+          # 5. PM2 status check karke app restart karein
+          echo "Restarting Next.js server via PM2..."
+          pm2 restart nextjs-frontend || pm2 start npm --name "nextjs-frontend" -- start
+          
+          # 6. PM2 list save karein
+          pm2 save
