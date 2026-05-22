@@ -38,11 +38,11 @@ export function BuddyCarousel() {
                 <div className="relative h-[340px] bg-white rounded-[1.5rem] overflow-hidden shadow-sm transition-all duration-300 group-hover:-translate-y-2 group-hover:shadow-xl border border-gray-100 flex flex-col">
                   
                   {/* Image Area with Wavy Bottom */}
-                  <div className="relative h-[60%] w-full overflow-hidden">
+                  <div className="relative h-[60%] w-full ">
                     <img 
                       src={getFullImageUrl(buddy.image)} 
                       alt={buddy.name} 
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                      className="w-full h-full object-cover transition-transform duration-700"
                     />
                     
                     {/* Activity Badge - Top Right */}

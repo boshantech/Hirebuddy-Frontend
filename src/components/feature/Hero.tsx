@@ -1,11 +1,25 @@
 "use client";
 
-import { Search, Star, ShieldCheck, Zap } from 'lucide-react';
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { Search, MapPin, Star, ShieldCheck, Zap } from 'lucide-react';
 import { motion } from "framer-motion";
 import { FadeIn } from "@/components/ui/FadeIn";
 import { SocialProofStrip } from "@/components/trust";
 
 export function Hero() {
+  const router = useRouter();
+
+  const [locationInput, setLocationInput] = useState("");
+  const [serviceInput, setServiceInput] = useState("");
+
+  const handleSearch = () => {
+    router.push(
+      `/buddies?location=${encodeURIComponent(
+        locationInput
+      )}&service=${encodeURIComponent(serviceInput)}`
+    );
+  };
   return (
     <section className="relative bg-white pt-10 pb-16 md:pt-16 md:pb-12 overflow-hidden">
       <div className="container-custom grid lg:grid-cols-[1fr_1.5fr_1fr] md:grid-cols-[1fr_2fr_1fr] gap-4 items-center min-h-[350px] md:min-h-[500px]">
@@ -18,18 +32,18 @@ export function Hero() {
           </svg>
 
           <div className="relative z-10 grid gap-6 pr-8">
-        
+
             <motion.img
               initial={{ opacity: 0, x: -50 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 , delay: 0.2}}
+              transition={{ duration: 0.8, delay: 0.2 }}
               src="/group-discuss.png"
               className="w-40 h-40 rounded-full object-cover shadow-lg border-4 border-white"
               alt="Group Discusstion"
             />
             <motion.img
               initial={{ opacity: 0, x: -50 }}
-              animate={{ opacity: 1, x: 0 }} 
+              animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
               src="/friends.png"
               className="w-48 h-32 rounded-3xl object-cover shadow-lg border-4 border-white ml-12"
@@ -39,7 +53,7 @@ export function Hero() {
         </div>
 
         {/* Center Col: Text Content */}
-        <div className="text-center z-20 px-4">
+        <div className="text-center z-20 px-4  lg:-mt-8">
           <FadeIn>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 leading-[1.15] tracking-tight mb-6">
               Bharat's trusted hiring network for <br />
@@ -56,17 +70,62 @@ export function Hero() {
           <FadeIn delay={0.3} className="w-full max-w-lg mx-auto mb-10">
             <div className="relative group">
               <div className="absolute -inset-1 bg-gradient-to-r from-red-200 to-purple-200 rounded-full blur opacity-40 group-hover:opacity-60 transition duration-500"></div>
-              <div className="relative bg-white p-2 pl-6 rounded-full shadow-lg border border-gray-200 flex items-center transition-all focus-within:ring-2 focus-within:ring-primary/20">
-                <Search className="h-6 w-6 text-gray-400 mr-3" />
-                <input
-                  type="text"
-                  placeholder="What kind of buddy do you need today?"
-                  className="flex-1 bg-transparent outline-none text-gray-900 placeholder:text-gray-400 h-10 md:h-12 text-base md:text-lg"
-                />
-                <button className="bg-primary hover:bg-[#F03541] text-white rounded-full p-3 md:px-6 md:py-3 font-bold transition-transform active:scale-95 shadow-md">
-                  <Search className="h-5 w-5 md:hidden" />
-                  <span className="hidden md:inline">Search</span>
+
+              {/* Search Container */}
+              <div className="relative bg-white p-2 rounded-full shadow-lg border border-gray-200 flex items-center gap-2 focus-within:ring-2 focus-within:ring-primary/20">
+
+                {/* Location */}
+                <div className="flex items-center flex-1 px-4 border-r border-gray-200">
+                  <MapPin className="h-5 w-5 text-gray-400 mr-2" />
+
+                  <input
+                    type="text"
+                    list="locations"
+                    placeholder="Location"
+                    value={locationInput}
+                    onChange={(e) => setLocationInput(e.target.value)}
+                    className="w-full bg-transparent outline-none text-gray-900 placeholder:text-gray-400 h-10 text-base"
+                  />
+
+                  <datalist id="locations">
+                    <option value="Gorakhpur" />
+                    <option value="Ghaziabad" />
+                    <option value="Gurgaon" />
+                    <option value="Lucknow" />
+                    <option value="Delhi" />
+                    <option value="Noida" />
+                  </datalist>
+                </div>
+
+                {/* Service */}
+                <div className="flex items-center flex-1 px-4">
+                  <Search className="h-5 w-5 text-gray-400 mr-2" />
+
+                  <input
+                    type="text"
+                    list="services"
+                    placeholder="Service"
+                    value={serviceInput}
+                    onChange={(e) => setServiceInput(e.target.value)}
+                    className="w-full bg-transparent outline-none text-gray-900 placeholder:text-gray-400 h-10 text-base"
+                  />
+
+                  <datalist id="services">
+                    <option value="Head Massage" />
+                    <option value="Home Cleaning" />
+                    <option value="AC Repair" />
+                    <option value="Electrician" />
+                    <option value="Plumber" />
+                  </datalist>
+                </div>
+
+                {/* Button */}
+                <button
+                  onClick={handleSearch}
+                  className="bg-primary hover:bg-[#F03541] text-white rounded-full px-8 py-3 font-bold transition-transform active:scale-95 shadow-md">
+                  Search
                 </button>
+
               </div>
             </div>
           </FadeIn>
@@ -104,16 +163,16 @@ export function Hero() {
 
           <div className="relative z-10 grid gap-8 pl-8 pt-12">
             <motion.img
-              initial={{ opacity: 0, x: 50 }} 
-              animate={{ opacity: 1, x: 0 }} 
+              initial={{ opacity: 0, x: 50 }}
+              animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8, delay: 0.1 }}
               src="/cycling.png"
               className="w-48 h-36 rounded-3xl object-cover shadow-lg border-4 border-white rotate-3"
               alt="Cycling Group"
             />
             <motion.img
-              initial={{ opacity: 0, x: 50 }} 
-              animate={{ opacity: 1, x: 0 }} 
+              initial={{ opacity: 0, x: 50 }}
+              animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8, delay: 0.3 }}
               src="/hiking.png"
               className="w-36 h-36 rounded-full object-cover shadow-lg border-4 border-white self-center -ml-8"
