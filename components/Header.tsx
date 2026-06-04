@@ -21,13 +21,13 @@ export default function Header({
 
 
   return (
-    <header className="h-20 bg-white border-b flex items-center justify-between px-6 text-black dark:bg-zinc-900 dark:text-white">
+    <header className="h-20 bg-gradient-to-r from-blue-500 to-cyan-500 text-white  flex items-center justify-between px-6 text-black dark:bg-zinc-900  dark:bg-none  dark:text-white">
 
       <div className="flex items-center gap-4">
         {/* Left side */}
         <button
           onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-          className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-zinc-700"
+          className="p-2 rounded-lg hover:bg-blue-500 dark:hover:bg-zinc-700"
         >
           {isSidebarOpen ? (
             <X size={24} />
@@ -53,7 +53,7 @@ export default function Header({
         {/* Dark Mode */}
         <button
           onClick={() => setDarkMode(!darkMode)}
-          className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-zinc-700"
+          className="p-2 rounded-lg hover:bg-blue-400 dark:hover:bg-zinc-700"
         >
           {darkMode ? <Sun size={20} /> : <Moon size={20} />}
         </button>

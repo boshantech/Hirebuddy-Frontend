@@ -6,7 +6,7 @@ import Sidebar from '@/components/Sidebar';
 import { Menu, X } from "lucide-react";
 import {useEffect} from "react";
 
-export default function Dashboard() {
+export default function DashboardLayout() {
 
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
     const [darkMode, setDarkMode] = useState(false);
